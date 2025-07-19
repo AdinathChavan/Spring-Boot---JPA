@@ -1,0 +1,25 @@
+package com.jpc.lambok;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+public interface EmployeeDetails extends JpaRepository<Employee, Integer>{
+	
+	Employee findByName(String name);
+	
+	List<Employee> findByGenderAndVillage(char Gender, String village);
+	
+	List<Employee> findByVillageOrPosition(String village, String position);
+	
+	@Query(value="select *From employeesdata",nativeQuery=true)
+	List<Employee> getAllData();
+	
+	
+	@Query(value="select *from employeesdata where village='kolhapur'" ,nativeQuery=true)
+	List<Employee> getSpecificData();
+	
+
+
+}
