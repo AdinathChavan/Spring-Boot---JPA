@@ -1,49 +1,40 @@
-package com.jpc.lambok;
+package com.mapping;
 
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 
 @Entity
-@Table(name="employeesdata")
+@Table(name="emp_dtl")
 public class Employee {
-	
-	public Employee(int id, String name, long mobileno, char gender, String village, String position, double salary) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.mobileno = mobileno;
-		this.gender = gender;
-		this.village = village;
-		this.position = position;
-		this.salary = salary;
-	}
-
-	@Override
-	public String toString() {
-		return "Employee [id=" + id + ", name=" + name + ", mobileno=" + mobileno + ", gender=" + gender + ", village="
-				+ village + ", position=" + position + ", salary=" + salary + "]";
-	}
-
-	public Employee() {
-		System.out.println("Employee object creared...");
-	}
-
-	@Id
+	 @Id
+	 @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "emp_seq_gen")
+	 @SequenceGenerator(name = "emp_seq_gen", sequenceName = "employee_seq", allocationSize = 1)
 	@Column(name="id")
-	private int id;
+	private long id;
 	
-	public int getId() {
+	@Column(name="name")
+	private String name;
+	@Column(name="gender")
+	private String gender;
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(referencedColumnName="addressId")
+	Address address;
+
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -55,58 +46,20 @@ public class Employee {
 		this.name = name;
 	}
 
-	public long getMobileno() {
-		return mobileno;
-	}
-
-	public void setMobileno(long mobileno) {
-		this.mobileno = mobileno;
-	}
-
-	public char getGender() {
+	public String getGender() {
 		return gender;
 	}
 
-	public void setGender(char gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 
-	public String getVillage() {
-		return village;
+	public Address getAddress() {
+		return address;
 	}
 
-	public void setVillage(String village) {
-		this.village = village;
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
-	public String getPosition() {
-		return position;
-	}
-
-	public void setPosition(String position) {
-		this.position = position;
-	}
-
-	public double getSalary() {
-		return salary;
-	}
-
-	public void setSalary(double salary) {
-		this.salary = salary;
-	}
-
-	@Column(name="name")
-	private String name;
-	
-	private long mobileno;
-	
-	private char gender;
-	
-	private String village;
-	
-	@Column(name="position")
-	private String position;
-	
-	private double salary;
-	
 }
